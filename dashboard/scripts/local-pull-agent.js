@@ -100,7 +100,7 @@ async function downloadFile(server, userKey, item, localPath) {
 
 async function pullOnce(server, outDir) {
   const queue = await fetchJson(`${server}/api/admin/pull-queue`);
-  const settings = await fetchJson(`${server}/api/admin/pull-sync/settings`);
+  const settings = queue.settings || { deleteAfterPull: true, pullIntervalSec: 30 };
 
   if (!settings.deleteAfterPull) {
     console.log('[pull-agent] 서버 설정: 다운로드 후 삭제가 꺼져 있습니다. 받기만 합니다.');
