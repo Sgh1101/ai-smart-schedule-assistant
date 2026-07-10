@@ -1,4 +1,4 @@
-# Render.com — AI Smart Schedule Dashboard
+# Render.com - AI Smart Schedule Dashboard
 # https://render.com/docs/blueprint-spec
 
 services:
@@ -13,11 +13,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # Free tier has no persistent disk; uploads use ephemeral /tmp (lost on redeploy).
       - key: DATA_STORAGE_ROOT
-        value: /var/data/uploads
+        value: /tmp/uploads
       - key: GEMINI_API_KEY
         sync: false
-    disk:
-      name: user-uploads
-      mountPath: /var/data/uploads
-      sizeGB: 1
