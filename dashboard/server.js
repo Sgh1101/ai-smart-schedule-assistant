@@ -1187,13 +1187,25 @@ app.post('/api/control/set', (req, res) => {
 });
 
 app.get('/api/health', (_req, res) => {
+  const storageRoot = storage.getStorageRoot();
+  const storageMode = storage.getStorageMode();
+  const cloud = storage.isCloudRuntime();
+  const ephemeral = storage.isEphemeralRoot(storageRoot);
   res.json({
     success: true,
     status: 'ok',
     chunkSizeHint: CHUNK_SIZE_HINT,
-    storageRoot: storage.getStorageRoot(),
-    storageMode: storage.getStorageMode(),
-    cloud: storage.isCloudRuntime()
+    storageRoot,
+    storageMode,
+    cloud,
+    ephemeral,
+    freeTier: cloud && ephemeral ? {
+      persistentDisk: false,
+      storagePath: '/tmp/uploads',
+      dataLostOnRedeploy: true,
+      dataLostOnSpinDown: true,
+      pullAgentRequiresLocalPc: true
+    } : undefined
   });
 });
 

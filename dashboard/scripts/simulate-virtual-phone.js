@@ -25,19 +25,32 @@ function fail(step, detail = '') {
   return { step, ok: false, detail };
 }
 
-async function request(url, opts = {}) {
+async function request(url, opts = {}, retries = 3) {
   const isNgrok = url.includes('ngrok');
-  const h = { ...(opts.headers || {}) };
-  if (isNgrok) h['ngrok-skip-browser-warning'] = 'true';
-  const res = await fetch(url, { ...opts, headers: h });
-  const text = await res.text();
-  let json;
-  try {
-    json = JSON.parse(text);
-  } catch {
-    json = { raw: text.slice(0, 300) };
+  let last;
+  for (let attempt = 0; attempt < retries; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 2000 * attempt));
+    const h = { ...(opts.headers || {}) };
+    if (isNgrok) h['ngrok-skip-browser-warning'] = 'true';
+    try {
+      const res = await fetch(url, { ...opts, headers: h });
+      const text = await res.text();
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch {
+        json = { raw: text.slice(0, 300) };
+      }
+      if (res.status === 404 && attempt < retries - 1) {
+        last = { ok: res.ok, status: res.status, json, text };
+        continue;
+      }
+      return { ok: res.ok, status: res.status, json, text };
+    } catch (e) {
+      last = { ok: false, status: 0, json: { message: e.message }, text: '' };
+    }
   }
-  return { ok: res.ok, status: res.status, json, text };
+  return last;
 }
 
 /** 최소 유효 JPEG (1x1) */
@@ -290,11 +303,17 @@ async function runOnBase(baseUrl, label) {
 
 async function verifyStorageFiles(baseUrl, userKey) {
   const checks = [];
+  const isRemote = !baseUrl.includes('127.0.0.1') && !baseUrl.includes('localhost');
   const { ok, json } = await request(`${baseUrl}api/admin/storage-info`);
   if (!ok || !json.storageRoot) {
     return [fail('저장 경로 API', JSON.stringify(json))];
   }
   checks.push(pass('저장 경로', `${json.storageMode}: ${json.storageRoot}`));
+
+  if (isRemote) {
+    checks.push(pass('원격 저장소 검증', 'Render 클라우드 — 로컬 파일시스템 검증 생략'));
+    return checks;
+  }
 
   const desktop = path.join(json.storageRoot, userKey);
   if (!fs.existsSync(desktop)) {

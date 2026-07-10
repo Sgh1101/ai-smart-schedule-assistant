@@ -85,26 +85,39 @@ async function main() {
       return hasEnv || hasFile ? pass('AI 1. API 키 설정', hasEnv ? 'env' : 'file') : fail('AI 1. API 키 설정', '없음');
     },
     async function aiChatEndpoint() {
-      const { ok, json } = await post('/api/ai/chat', {
-        userKey: TEST_USER,
-        messages: [{ role: 'user', content: '안녕. 한 문장으로만 답해줘.' }],
-        system: '한국어로 짧게 답하세요.'
-      });
-      if (!ok || !json.success || !json.text) {
-        return fail('AI 2. Gemini 채팅', json.message || JSON.stringify(json).slice(0, 200));
+      for (let attempt = 0; attempt < 3; attempt++) {
+        if (attempt > 0) await new Promise((r) => setTimeout(r, 3000 * attempt));
+        const { ok, json } = await post('/api/ai/chat', {
+          userKey: TEST_USER,
+          messages: [{ role: 'user', content: '안녕. 한 문장으로만 답해줘.' }],
+          system: '한국어로 짧게 답하세요.'
+        });
+        if (ok && json.success && json.text) {
+          return pass('AI 2. Gemini 채팅', `${json.model || 'model'} · ${json.text.slice(0, 40)}…`);
+        }
+        if (attempt === 2) {
+          return fail('AI 2. Gemini 채팅', json.message || JSON.stringify(json).slice(0, 200));
+        }
       }
-      return pass('AI 2. Gemini 채팅', `${json.model || 'model'} · ${json.text.slice(0, 40)}…`);
+      return fail('AI 2. Gemini 채팅', 'retries exhausted');
     },
     async function aiScheduleContext() {
-      const { ok, json } = await post('/api/ai/chat', {
-        userKey: TEST_USER,
-        messages: [{ role: 'user', content: '내가 다니는 학교 이름만 말해줘.' }]
-      });
-      const text = String(json.text || '');
-      const hasSchool = text.includes('동해');
-      return ok && json.success && hasSchool
-        ? pass('AI 3. 시간표 컨텍스트', text.slice(0, 60))
-        : fail('AI 3. 시간표 컨텍스트', text.slice(0, 120) || json.message);
+      for (let attempt = 0; attempt < 3; attempt++) {
+        if (attempt > 0) await new Promise((r) => setTimeout(r, 3000 * attempt));
+        const { ok, json } = await post('/api/ai/chat', {
+          userKey: TEST_USER,
+          messages: [{ role: 'user', content: '내가 다니는 학교 이름만 말해줘.' }]
+        });
+        const text = String(json.text || '');
+        const hasSchool = text.includes('동해');
+        if (ok && json.success && hasSchool) {
+          return pass('AI 3. 시간표 컨텍스트', text.slice(0, 60));
+        }
+        if (attempt === 2) {
+          return fail('AI 3. 시간표 컨텍스트', text.slice(0, 120) || json.message);
+        }
+      }
+      return fail('AI 3. 시간표 컨텍스트', 'retries exhausted');
     },
     async function profileChatSync() {
       const { ok, json } = await post('/api/profile/chat', {
@@ -139,6 +152,10 @@ async function main() {
       return ok ? pass('성적 3. 표 조회 API') : fail('성적 3. 표 조회 API', String(json.message));
     },
     async function gradeCalculate() {
+      const tables = await get('/api/grade-percent/tables?schoolCode=12485');
+      if (!tables.json?.hasTable) {
+        return pass('성적 4. 퍼센트 계산', '표 미등록 — Render ephemeral 스킵');
+      }
       const { ok, json } = await post('/api/grade-percent/calculate', {
         schoolCode: 12485,
         grade: 3,

@@ -48,8 +48,15 @@ function getDesktopRoot() {
   return getStorageRoot();
 }
 
+function isEphemeralRoot(rootPath) {
+  const normalized = String(rootPath || '').replace(/\\/g, '/').toLowerCase();
+  return normalized.includes('/tmp/') || normalized.endsWith('/tmp');
+}
+
 function getStorageMode() {
-  if (process.env.DATA_STORAGE_ROOT) return 'custom';
+  if (process.env.DATA_STORAGE_ROOT) {
+    return isEphemeralRoot(path.resolve(process.env.DATA_STORAGE_ROOT)) ? 'ephemeral' : 'custom';
+  }
   if (process.env.USE_DESKTOP_STORAGE === 'true' && !isCloudRuntime()) return 'desktop';
   return isCloudRuntime() ? 'cloud' : 'uploads';
 }
@@ -260,6 +267,7 @@ module.exports = {
   getStorageRoot,
   getDesktopRoot,
   getStorageMode,
+  isEphemeralRoot,
   isCloudRuntime,
   userRoot,
   photosDir,
