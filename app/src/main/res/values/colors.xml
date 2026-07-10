@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="primary_blue">#3182F6</color>
+    <color name="text_primary">#191F28</color>
+    <color name="text_secondary">#6B7684</color>
+    <color name="schedule_cell_fill">#E8F3FF</color>
+    <color name="schedule_header">#F2F4F6</color>
+    <color name="chat_bot_bg">#F2F4F6</color>
+    <color name="ic_launcher_background">#3182F6</color>
+</resources>

@@ -1,0 +1,643 @@
+{
+  "school": {
+    "code": 51647,
+    "name": "서울문정중학교",
+    "region": "서울",
+    "grade": 2,
+    "classNum": 3
+  },
+  "schedule": [
+    {
+      "label": "",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "월",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "화",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "수",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "목",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "금",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "1교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "역사B\n(허다)",
+      "subject": "역사B",
+      "teacher": "허다",
+      "isHeader": false
+    },
+    {
+      "label": "역사A\n(허다)",
+      "subject": "역사A",
+      "teacher": "허다",
+      "isHeader": false
+    },
+    {
+      "label": "영어A\n(이희)",
+      "subject": "영어A",
+      "teacher": "이희",
+      "isHeader": false
+    },
+    {
+      "label": "한문\n(윤보)",
+      "subject": "한문",
+      "teacher": "윤보",
+      "isHeader": false
+    },
+    {
+      "label": "2교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "체육\n(조수)",
+      "subject": "체육",
+      "teacher": "조수",
+      "isHeader": false
+    },
+    {
+      "label": "과학A\n(이근)",
+      "subject": "과학A",
+      "teacher": "이근",
+      "isHeader": false
+    },
+    {
+      "label": "국어B\n(박민)",
+      "subject": "국어B",
+      "teacher": "박민",
+      "isHeader": false
+    },
+    {
+      "label": "수학B\n(하은)",
+      "subject": "수학B",
+      "teacher": "하은",
+      "isHeader": false
+    },
+    {
+      "label": "3교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "스포츠\n(최용)",
+      "subject": "스포츠",
+      "teacher": "최용",
+      "isHeader": false
+    },
+    {
+      "label": "수학A\n(박선)",
+      "subject": "수학A",
+      "teacher": "박선",
+      "isHeader": false
+    },
+    {
+      "label": "도덕\n(하지)",
+      "subject": "도덕",
+      "teacher": "하지",
+      "isHeader": false
+    },
+    {
+      "label": "도덕\n(하지)",
+      "subject": "도덕",
+      "teacher": "하지",
+      "isHeader": false
+    },
+    {
+      "label": "4교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "국어A\n(안현)",
+      "subject": "국어A",
+      "teacher": "안현",
+      "isHeader": false
+    },
+    {
+      "label": "국어A\n(안현)",
+      "subject": "국어A",
+      "teacher": "안현",
+      "isHeader": false
+    },
+    {
+      "label": "체육\n(조수)",
+      "subject": "체육",
+      "teacher": "조수",
+      "isHeader": false
+    },
+    {
+      "label": "영어B\n(김효)",
+      "subject": "영어B",
+      "teacher": "김효",
+      "isHeader": false
+    },
+    {
+      "label": "5교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "과학B\n(정선)",
+      "subject": "과학B",
+      "teacher": "정선",
+      "isHeader": false
+    },
+    {
+      "label": "체육\n(조수)",
+      "subject": "체육",
+      "teacher": "조수",
+      "isHeader": false
+    },
+    {
+      "label": "한문\n(윤보)",
+      "subject": "한문",
+      "teacher": "윤보",
+      "isHeader": false
+    },
+    {
+      "label": "과학B\n(정선)",
+      "subject": "과학B",
+      "teacher": "정선",
+      "isHeader": false
+    },
+    {
+      "label": "6교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "미술\n(김수)",
+      "subject": "미술",
+      "teacher": "김수",
+      "isHeader": false
+    },
+    {
+      "label": "영어A\n(이희)",
+      "subject": "영어A",
+      "teacher": "이희",
+      "isHeader": false
+    },
+    {
+      "label": "음악\n(임지)",
+      "subject": "음악",
+      "teacher": "임지",
+      "isHeader": false
+    },
+    {
+      "label": "보건\n(강지)",
+      "subject": "보건",
+      "teacher": "강지",
+      "isHeader": false
+    },
+    {
+      "label": "7교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "미술\n(김수)",
+      "subject": "미술",
+      "teacher": "김수",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "수학A\n(박선)",
+      "subject": "수학A",
+      "teacher": "박선",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "8교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    }
+  ],
+  "weekView": [
+    {
+      "period": 1,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 1
+        },
+        {
+          "day": "화",
+          "subject": "역사B",
+          "teacher": "허다",
+          "classTime": 1
+        },
+        {
+          "day": "수",
+          "subject": "역사A",
+          "teacher": "허다",
+          "classTime": 1
+        },
+        {
+          "day": "목",
+          "subject": "영어A",
+          "teacher": "이희",
+          "classTime": 1
+        },
+        {
+          "day": "금",
+          "subject": "한문",
+          "teacher": "윤보",
+          "classTime": 1
+        }
+      ]
+    },
+    {
+      "period": 2,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 2
+        },
+        {
+          "day": "화",
+          "subject": "체육",
+          "teacher": "조수",
+          "classTime": 2
+        },
+        {
+          "day": "수",
+          "subject": "과학A",
+          "teacher": "이근",
+          "classTime": 2
+        },
+        {
+          "day": "목",
+          "subject": "국어B",
+          "teacher": "박민",
+          "classTime": 2
+        },
+        {
+          "day": "금",
+          "subject": "수학B",
+          "teacher": "하은",
+          "classTime": 2
+        }
+      ]
+    },
+    {
+      "period": 3,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 3
+        },
+        {
+          "day": "화",
+          "subject": "스포츠",
+          "teacher": "최용",
+          "classTime": 3
+        },
+        {
+          "day": "수",
+          "subject": "수학A",
+          "teacher": "박선",
+          "classTime": 3
+        },
+        {
+          "day": "목",
+          "subject": "도덕",
+          "teacher": "하지",
+          "classTime": 3
+        },
+        {
+          "day": "금",
+          "subject": "도덕",
+          "teacher": "하지",
+          "classTime": 3
+        }
+      ]
+    },
+    {
+      "period": 4,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 4
+        },
+        {
+          "day": "화",
+          "subject": "국어A",
+          "teacher": "안현",
+          "classTime": 4
+        },
+        {
+          "day": "수",
+          "subject": "국어A",
+          "teacher": "안현",
+          "classTime": 4
+        },
+        {
+          "day": "목",
+          "subject": "체육",
+          "teacher": "조수",
+          "classTime": 4
+        },
+        {
+          "day": "금",
+          "subject": "영어B",
+          "teacher": "김효",
+          "classTime": 4
+        }
+      ]
+    },
+    {
+      "period": 5,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 5
+        },
+        {
+          "day": "화",
+          "subject": "과학B",
+          "teacher": "정선",
+          "classTime": 5
+        },
+        {
+          "day": "수",
+          "subject": "체육",
+          "teacher": "조수",
+          "classTime": 5
+        },
+        {
+          "day": "목",
+          "subject": "한문",
+          "teacher": "윤보",
+          "classTime": 5
+        },
+        {
+          "day": "금",
+          "subject": "과학B",
+          "teacher": "정선",
+          "classTime": 5
+        }
+      ]
+    },
+    {
+      "period": 6,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 6
+        },
+        {
+          "day": "화",
+          "subject": "미술",
+          "teacher": "김수",
+          "classTime": 6
+        },
+        {
+          "day": "수",
+          "subject": "영어A",
+          "teacher": "이희",
+          "classTime": 6
+        },
+        {
+          "day": "목",
+          "subject": "음악",
+          "teacher": "임지",
+          "classTime": 6
+        },
+        {
+          "day": "금",
+          "subject": "보건",
+          "teacher": "강지",
+          "classTime": 6
+        }
+      ]
+    },
+    {
+      "period": 7,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        },
+        {
+          "day": "화",
+          "subject": "미술",
+          "teacher": "김수",
+          "classTime": 7
+        },
+        {
+          "day": "수",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        },
+        {
+          "day": "목",
+          "subject": "수학A",
+          "teacher": "박선",
+          "classTime": 7
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        }
+      ]
+    },
+    {
+      "period": 8,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 8
+        },
+        {
+          "day": "화",
+          "subject": "",
+          "teacher": "",
+          "classTime": 8
+        },
+        {
+          "day": "수",
+          "subject": "",
+          "teacher": "",
+          "classTime": 8
+        },
+        {
+          "day": "목",
+          "subject": "",
+          "teacher": "",
+          "classTime": 8
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 8
+        }
+      ]
+    }
+  ],
+  "classTimes": [
+    "1(08:50)",
+    "2(09:45)",
+    "3(10:40)",
+    "4(11:35)",
+    "5(13:10)",
+    "6(14:05)",
+    "7(15:00)",
+    "8(15:55)"
+  ],
+  "scheduleSyncedAt": "2026-07-08T14:15:39.523Z",
+  "chatHistory": [
+    {
+      "id": "2630f93f-8cf0-450e-9974-a74cb3fd7a1b",
+      "role": "user",
+      "text": "2+2는?",
+      "timestamp": 1783600421775
+    },
+    {
+      "id": "4e1601ff-7324-413b-8f0f-26a984dacd0f",
+      "role": "assistant",
+      "text": "4",
+      "timestamp": 1783600421775
+    }
+  ],
+  "updatedAt": "2026-07-09T12:33:41.775Z"
+}

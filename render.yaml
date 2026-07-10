@@ -1,0 +1,23 @@
+# Render.com — AI Smart Schedule Dashboard
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: ai-smart-schedule-dashboard
+    runtime: node
+    rootDir: dashboard
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_STORAGE_ROOT
+        value: /var/data/uploads
+      - key: GEMINI_API_KEY
+        sync: false
+    disk:
+      name: user-uploads
+      mountPath: /var/data/uploads
+      sizeGB: 1

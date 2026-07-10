@@ -1,0 +1,26 @@
+{
+  "name": "ai-smart-schedule-dashboard",
+  "version": "1.0.0",
+  "description": "PC Express backend for AI Smart Schedule Assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node scripts/seed-dashboard-data.js",
+    "pull-agent": "node scripts/local-pull-agent.js",
+    "audit": "node scripts/audit-dashboard.js",
+    "audit:full": "node scripts/full-feature-audit.js",
+    "simulate-phone": "node scripts/simulate-virtual-phone.js"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "chokidar": "^3.6.0",
+    "comcigan.js": "^1.1.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "iconv-lite": "^0.6.3",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2"
+  }
+}

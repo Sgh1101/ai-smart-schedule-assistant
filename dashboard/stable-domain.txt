@@ -1,0 +1,2 @@
+# ngrok 고정 도메인
+residency-retreat-sterile.ngrok-free.dev

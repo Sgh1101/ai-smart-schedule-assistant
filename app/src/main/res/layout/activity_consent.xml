@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvConsentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="필수 권한에 동의하십니까?"
+            android:textColor="@color/text_primary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvConsentSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="4dp"
+            android:text="앱 이용을 위해 알림, 사진·동영상, 연락처, 통화기록, 네트워크 연동, 개인정보 수집·이용 권한이 필요합니다."
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAgreeAll"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:text="전체 동의"
+            app:backgroundTint="@color/primary_blue"
+            app:cornerRadius="14dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShowAll"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="전체보기"
+            android:textColor="@color/text_secondary" />
+
+        <LinearLayout
+            android:id="@+id/detailPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="세부 동의 항목"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="알림 앱 사용권한에 동의하십니까?" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사진·동영상 앱 사용권한에 동의하십니까?" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="연락처 앱 사용권한에 동의하십니까?" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbCallLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="통화기록 앱 사용권한에 동의하십니까?" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbNetwork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="네트워크(인터넷·Wi-Fi·LTE/5G) 연동에 동의하십니까?" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="개인정보 수집·이용 앱 사용권한에 동의하십니까?" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDecline"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="동의하지 않고 종료"
+            android:textColor="@color/text_secondary" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

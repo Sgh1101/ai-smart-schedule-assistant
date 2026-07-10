@@ -1,0 +1,40 @@
+{
+  "users": {
+    "_____": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "unknown": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "audit_feature_user": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "조은찬": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "audit_schedule_user": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "가상폰테스트": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "full_audit_user": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "register_audit_1783670169359": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    },
+    "tunnel_test": {
+      "notificationCollect": true,
+      "mediaBackup": true
+    }
+  }
+}

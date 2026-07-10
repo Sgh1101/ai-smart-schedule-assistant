@@ -1,0 +1,34 @@
+﻿# Android / Gradle
+@app/
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+
+# Node
+node_modules/
+dashboard/node_modules/
+
+# Environment and local secrets
+.env
+.env.*
+*-api-key.txt
+ngrok-authtoken.txt
+public-url.txt
+
+# Uploads and artifacts
+uploads/
+dashboard/uploads/*
+!dashboard/uploads/.gitkeep
+*.apk
+
+# Local tunnel / ngrok logs
+.ngrok.log
+.ngrok.log.err
+.tunnel-run.log
+.tunnel.log
+ngrok-native.log
+ngrok-native.log.err
+ngrok-restart.log
+ngrok-restart.log.err

@@ -1,0 +1,596 @@
+{
+  "school": {
+    "code": 12485,
+    "name": "동해중학교",
+    "region": "부산광역시",
+    "grade": 3,
+    "classNum": 3
+  },
+  "schedule": [
+    {
+      "label": "",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "월",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "화",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "수",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "목",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "금",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "1교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "과학B\n(허유*)",
+      "subject": "과학B",
+      "teacher": "허유*",
+      "isHeader": false
+    },
+    {
+      "label": "음악\n(김민*)",
+      "subject": "음악",
+      "teacher": "김민*",
+      "isHeader": false
+    },
+    {
+      "label": "영어\n(서윤*)",
+      "subject": "영어",
+      "teacher": "서윤*",
+      "isHeader": false
+    },
+    {
+      "label": "미술\n(김은*)",
+      "subject": "미술",
+      "teacher": "김은*",
+      "isHeader": false
+    },
+    {
+      "label": "디지털\n(김재*)",
+      "subject": "디지털",
+      "teacher": "김재*",
+      "isHeader": false
+    },
+    {
+      "label": "2교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "수학\n(윤경*)",
+      "subject": "수학",
+      "teacher": "윤경*",
+      "isHeader": false
+    },
+    {
+      "label": "체육\n(김용*)",
+      "subject": "체육",
+      "teacher": "김용*",
+      "isHeader": false
+    },
+    {
+      "label": "미술\n(김은*)",
+      "subject": "미술",
+      "teacher": "김은*",
+      "isHeader": false
+    },
+    {
+      "label": "사회\n(이혜*)",
+      "subject": "사회",
+      "teacher": "이혜*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "3교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "체육\n(김용*)",
+      "subject": "체육",
+      "teacher": "김용*",
+      "isHeader": false
+    },
+    {
+      "label": "기술\n(황지*)",
+      "subject": "기술",
+      "teacher": "황지*",
+      "isHeader": false
+    },
+    {
+      "label": "한문\n(김나*)",
+      "subject": "한문",
+      "teacher": "김나*",
+      "isHeader": false
+    },
+    {
+      "label": "국어\n(김현*)",
+      "subject": "국어",
+      "teacher": "김현*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "4교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "가정\n(이다*)",
+      "subject": "가정",
+      "teacher": "이다*",
+      "isHeader": false
+    },
+    {
+      "label": "국어\n(김현*)",
+      "subject": "국어",
+      "teacher": "김현*",
+      "isHeader": false
+    },
+    {
+      "label": "국어\n(김현*)",
+      "subject": "국어",
+      "teacher": "김현*",
+      "isHeader": false
+    },
+    {
+      "label": "영어\n(서윤*)",
+      "subject": "영어",
+      "teacher": "서윤*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "5교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "과학A\n(이지*)",
+      "subject": "과학A",
+      "teacher": "이지*",
+      "isHeader": false
+    },
+    {
+      "label": "체육\n(김용*)",
+      "subject": "체육",
+      "teacher": "김용*",
+      "isHeader": false
+    },
+    {
+      "label": "영어\n(서윤*)",
+      "subject": "영어",
+      "teacher": "서윤*",
+      "isHeader": false
+    },
+    {
+      "label": "6교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "영어\n(서윤*)",
+      "subject": "영어",
+      "teacher": "서윤*",
+      "isHeader": false
+    },
+    {
+      "label": "역사\n(이상*)",
+      "subject": "역사",
+      "teacher": "이상*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "과학B\n(허유*)",
+      "subject": "과학B",
+      "teacher": "허유*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "7교시",
+      "subject": "",
+      "teacher": "",
+      "isHeader": true
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "수학\n(윤경*)",
+      "subject": "수학",
+      "teacher": "윤경*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    },
+    {
+      "label": "창체\n(창*)",
+      "subject": "창체",
+      "teacher": "창*",
+      "isHeader": false
+    },
+    {
+      "label": "-",
+      "subject": "",
+      "teacher": "",
+      "isHeader": false
+    }
+  ],
+  "weekView": [
+    {
+      "period": 1,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "과학B",
+          "teacher": "허유*",
+          "classTime": 1
+        },
+        {
+          "day": "화",
+          "subject": "음악",
+          "teacher": "김민*",
+          "classTime": 1
+        },
+        {
+          "day": "수",
+          "subject": "영어",
+          "teacher": "서윤*",
+          "classTime": 1
+        },
+        {
+          "day": "목",
+          "subject": "미술",
+          "teacher": "김은*",
+          "classTime": 1
+        },
+        {
+          "day": "금",
+          "subject": "디지털",
+          "teacher": "김재*",
+          "classTime": 1
+        }
+      ]
+    },
+    {
+      "period": 2,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "수학",
+          "teacher": "윤경*",
+          "classTime": 2
+        },
+        {
+          "day": "화",
+          "subject": "체육",
+          "teacher": "김용*",
+          "classTime": 2
+        },
+        {
+          "day": "수",
+          "subject": "미술",
+          "teacher": "김은*",
+          "classTime": 2
+        },
+        {
+          "day": "목",
+          "subject": "사회",
+          "teacher": "이혜*",
+          "classTime": 2
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 2
+        }
+      ]
+    },
+    {
+      "period": 3,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "체육",
+          "teacher": "김용*",
+          "classTime": 3
+        },
+        {
+          "day": "화",
+          "subject": "기술",
+          "teacher": "황지*",
+          "classTime": 3
+        },
+        {
+          "day": "수",
+          "subject": "한문",
+          "teacher": "김나*",
+          "classTime": 3
+        },
+        {
+          "day": "목",
+          "subject": "국어",
+          "teacher": "김현*",
+          "classTime": 3
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 3
+        }
+      ]
+    },
+    {
+      "period": 4,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "가정",
+          "teacher": "이다*",
+          "classTime": 4
+        },
+        {
+          "day": "화",
+          "subject": "국어",
+          "teacher": "김현*",
+          "classTime": 4
+        },
+        {
+          "day": "수",
+          "subject": "국어",
+          "teacher": "김현*",
+          "classTime": 4
+        },
+        {
+          "day": "목",
+          "subject": "영어",
+          "teacher": "서윤*",
+          "classTime": 4
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 4
+        }
+      ]
+    },
+    {
+      "period": 5,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 5
+        },
+        {
+          "day": "화",
+          "subject": "",
+          "teacher": "",
+          "classTime": 5
+        },
+        {
+          "day": "수",
+          "subject": "과학A",
+          "teacher": "이지*",
+          "classTime": 5
+        },
+        {
+          "day": "목",
+          "subject": "체육",
+          "teacher": "김용*",
+          "classTime": 5
+        },
+        {
+          "day": "금",
+          "subject": "영어",
+          "teacher": "서윤*",
+          "classTime": 5
+        }
+      ]
+    },
+    {
+      "period": 6,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "영어",
+          "teacher": "서윤*",
+          "classTime": 6
+        },
+        {
+          "day": "화",
+          "subject": "역사",
+          "teacher": "이상*",
+          "classTime": 6
+        },
+        {
+          "day": "수",
+          "subject": "",
+          "teacher": "",
+          "classTime": 6
+        },
+        {
+          "day": "목",
+          "subject": "과학B",
+          "teacher": "허유*",
+          "classTime": 6
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 6
+        }
+      ]
+    },
+    {
+      "period": 7,
+      "slots": [
+        {
+          "day": "월",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        },
+        {
+          "day": "화",
+          "subject": "수학",
+          "teacher": "윤경*",
+          "classTime": 7
+        },
+        {
+          "day": "수",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        },
+        {
+          "day": "목",
+          "subject": "창체",
+          "teacher": "창*",
+          "classTime": 7
+        },
+        {
+          "day": "금",
+          "subject": "",
+          "teacher": "",
+          "classTime": 7
+        }
+      ]
+    }
+  ],
+  "classTimes": [],
+  "scheduleSyncedAt": "2026-07-10T07:56:09.502Z",
+  "chatHistory": [
+    {
+      "id": "7f2a6696-3e8c-4f71-b939-0393586ef45c",
+      "role": "user",
+      "text": "안녕. 한 문장으로만 답해줘.",
+      "timestamp": 1783670167138
+    },
+    {
+      "id": "7cf20c53-0af6-4bea-975e-d840646e37b6",
+      "role": "assistant",
+      "text": "안녕하세요.",
+      "timestamp": 1783670167138
+    },
+    {
+      "id": "f82e8f7d-b547-4db3-ace1-d18964f31870",
+      "role": "user",
+      "text": "내가 다니는 학교 이름만 말해줘.",
+      "timestamp": 1783670168608
+    },
+    {
+      "id": "fdaeed15-bec3-4345-a9ab-80f30c52a79b",
+      "role": "assistant",
+      "text": "사용자님께서 다니는 학교는 **동해중학교**입니다.",
+      "timestamp": 1783670168608
+    },
+    {
+      "id": "eeb58cc0-27e0-4149-bfe8-165b0257357a",
+      "role": "user",
+      "text": "full-audit-sync-test",
+      "timestamp": 1783670168610
+    }
+  ],
+  "updatedAt": "2026-07-10T07:56:09.502Z",
+  "scheduleMeta": {
+    "lastUpdated": "2026-07-09T01:57:02.000Z",
+    "weekRange": {
+      "start": [
+        2026,
+        7,
+        6
+      ],
+      "end": [
+        2026,
+        7,
+        10
+      ]
+    }
+  }
+}

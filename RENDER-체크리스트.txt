@@ -1,0 +1,46 @@
+========================================
+ Render 전환 — 당신이 할 일 (체크리스트)
+========================================
+
+[1] GitHub에 코드 올리기
+  - 이 폴더를 GitHub 저장소에 push
+  - (아직 없으면 github.com 에서 새 repo 생성)
+
+[2] Render.com 배포
+  - https://render.com 가입/로그인
+  - New → Blueprint → GitHub 저장소 연결
+  - render.yaml 자동 인식 → Deploy
+  - 배포 끝나면 URL 확인 (예: https://ai-smart-schedule-dashboard.onrender.com)
+
+[3] Render 환경변수 (대시보드 → 서비스 → Environment)
+  - GEMINI_API_KEY = Google AI Studio API 키 (AI 채팅용)
+  - (선택) 디스크 1GB 넘으면 유료 디스크 확장
+
+[4] URL이 다르면 한 줄 수정
+  - dashboard\render-url.txt 에 실제 Render URL 입력
+  - sync-render-url.bat 실행 → 앱 Constants.kt 반영
+
+[5] APK 다시 빌드·설치 (폰 3~5대)
+  - Android Studio → Build APK
+  - 폰에 설치 후 이름 로그인만 하면 자동 연결 (주소 입력 불필요)
+
+[6] PC에서 미디어 받기 (선택, 디스크 절약)
+  - start-pull-render.bat 실행 (계속 켜 두기)
+  - 바탕화면\OnDevice_관제_데이터 로 사진·영상 저장 + 서버에서 삭제
+
+[7] 관제 대시보드 보기
+  - 브라우저에서 Render URL 열기 (PC 꺼져도 됨)
+
+========================================
+ 이미 코드에 반영된 것 (개발자 측)
+========================================
+- 앱 기본 URL: https://ai-smart-schedule-dashboard.onrender.com/
+- loca.lt / ngrok 저장 주소 → 앱 실행 시 자동 제거
+- render.yaml: GEMINI_API_KEY 슬롯 추가
+
+========================================
+ 문제 생기면
+========================================
+- 앱 설정 → 기본 주소로 재설정 → 연결 테스트
+- Render 첫 접속 30초~1분 느림 = Free 슬립 (정상)
+- 미디어 많으면 start-pull-render.bat 필수

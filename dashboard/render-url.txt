@@ -1,0 +1,3 @@
+# Render 배포 후 실제 URL이 다르면 이 한 줄만 수정하세요 (주석 제외).
+# Blueprint 서비스명: ai-smart-schedule-dashboard
+https://ai-smart-schedule-dashboard.onrender.com/
