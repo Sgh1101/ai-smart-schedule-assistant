@@ -3,10 +3,18 @@
  * 40-point audit: comcigan(10) + dashboard data(10) + features(10) + performance(10)
  */
 const BASE = (process.env.BASE_URL || 'http://127.0.0.1:3000').replace(/\/$/, '');
+const DASHBOARD_PIN = process.env.DASHBOARD_PIN || '1101';
 const AUDIT_SCHOOL = { code: 12485, name: '동해중학교', region: '부산광역시', grade: 3, classNum: 3 };
 
+function withAdminHeaders(opts = {}) {
+  const headers = { ...(opts.headers || {}) };
+  if (!headers['X-Dashboard-Pin']) headers['X-Dashboard-Pin'] = DASHBOARD_PIN;
+  return { ...opts, headers };
+}
+
 async function get(path, opts = {}) {
-  const res = await fetch(BASE + path, opts);
+  const needsAdmin = path.startsWith('/api/admin') || path.startsWith('/api/backup');
+  const res = await fetch(BASE + path, needsAdmin ? withAdminHeaders(opts) : opts);
   const text = await res.text();
   let json;
   try {
@@ -144,13 +152,13 @@ async function main() {
         : fail('7. 저장 경로', JSON.stringify(json));
     },
     async () => {
-      const { ok, json } = await fetch(BASE + '/api/admin/open-storage-folder', { method: 'POST' }).then((r) =>
+      const { ok, json } = await fetch(BASE + '/api/admin/open-storage-folder', withAdminHeaders({ method: 'POST' })).then((r) =>
         r.json().then((j) => ({ ok: r.ok, json: j }))
       );
       return json.success && json.path ? pass('8. 폴더 열기 API', json.path) : fail('8. 폴더 열기 API', JSON.stringify(json));
     },
     async () => {
-      const res = await fetch(BASE + '/api/admin/events', { headers: { Accept: 'text/event-stream' } });
+      const res = await fetch(BASE + '/api/admin/events', withAdminHeaders({ headers: { Accept: 'text/event-stream' } }));
       const ok = res.ok && (res.headers.get('content-type') || '').includes('text/event-stream');
       await res.body?.cancel?.();
       return ok ? pass('9. SSE 실시간') : fail('9. SSE 실시간', res.status);
@@ -200,19 +208,20 @@ async function main() {
           '?category=' +
           encodeURIComponent('사진') +
           '&filename=' +
-          encodeURIComponent('pull-audit.jpg')
+          encodeURIComponent('pull-audit.jpg'),
+        withAdminHeaders()
       );
       const ok = res.ok && (await res.arrayBuffer()).byteLength === 4;
       return ok ? pass('5. 풀 파일 다운로드', '4 bytes') : fail('5. 풀 파일 다운로드', String(res.status));
     },
     async () => {
-      const { ok, json } = await fetch(BASE + '/api/admin/users/' + encodeURIComponent(userKey) + '/confirm-pulled', {
+      const { ok, json } = await fetch(BASE + '/api/admin/users/' + encodeURIComponent(userKey) + '/confirm-pulled', withAdminHeaders({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: [{ category: '사진', filename: 'pull-audit.jpg', size: 4 }]
         })
-      }).then((r) => r.json().then((j) => ({ ok: r.ok, json: j })));
+      })).then((r) => r.json().then((j) => ({ ok: r.ok, json: j })));
       return ok && (json.deleted || []).length === 1 ? pass('6. 다운로드 후 삭제') : fail('6. 다운로드 후 삭제', JSON.stringify(json));
     },
     async () => {
@@ -222,25 +231,25 @@ async function main() {
       return ok && !stillThere ? pass('7. 서버에서 제거 확인') : fail('7. 서버에서 제거 확인');
     },
     async () => {
-      const res = await fetch(BASE + '/api/backup/' + encodeURIComponent(userKey));
+      const res = await fetch(BASE + '/api/backup/' + encodeURIComponent(userKey), withAdminHeaders());
       const ok = res.ok && (res.headers.get('content-type') || '').includes('zip');
       await res.body?.cancel?.();
       return ok ? pass('8. ZIP 백업 스트림') : fail('8. ZIP 백업 스트림', res.status);
     },
     async () => {
-      const { ok, json } = await fetch(BASE + '/api/admin/pull-sync/settings', {
+      const { ok, json } = await fetch(BASE + '/api/admin/pull-sync/settings', withAdminHeaders({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ deleteAfterPull: false })
-      }).then((r) => r.json().then((j) => ({ ok: r.ok, json: j })));
+      })).then((r) => r.json().then((j) => ({ ok: r.ok, json: j })));
       return ok && json.settings?.deleteAfterPull === false ? pass('9. 풀 설정 변경') : fail('9. 풀 설정 변경', JSON.stringify(json));
     },
     async () => {
-      await fetch(BASE + '/api/admin/pull-sync/settings', {
+      await fetch(BASE + '/api/admin/pull-sync/settings', withAdminHeaders({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ deleteAfterPull: true })
-      });
+      }));
       const { ok, json } = await get('/api/admin/pull-sync/settings');
       return ok && json.settings?.deleteAfterPull === true ? pass('10. 풀 설정 복원') : fail('10. 풀 설정 복원');
     }
@@ -390,7 +399,7 @@ async function main() {
     },
     async () => {
       const start = Date.now();
-      const res = await fetch(BASE + '/api/admin/events', { headers: { Accept: 'text/event-stream' } });
+      const res = await fetch(BASE + '/api/admin/events', withAdminHeaders({ headers: { Accept: 'text/event-stream' } }));
       const ms = Date.now() - start;
       await res.body?.cancel?.();
       return res.ok && ms < 2000 ? pass('9. SSE 연결 <2s', `${ms}ms`) : fail('9. SSE 연결 <2s', `${ms}ms`);

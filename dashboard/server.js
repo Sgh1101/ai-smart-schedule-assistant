@@ -15,6 +15,7 @@ const gradePercent = require('./gradePercentService');
 const aiChat = require('./aiChatService');
 const { streamUserBackupZip } = require('./backupService');
 const pullSync = require('./pullSyncService');
+const dashboardAuth = require('./dashboardAuth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -51,6 +52,26 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+app.post('/api/dashboard/login', (req, res) => {
+  const pin = String(req.body?.pin || '').trim();
+  if (pin !== dashboardAuth.PIN) {
+    return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+  }
+  dashboardAuth.setAuthCookie(res, dashboardAuth.issueToken());
+  return res.json({ success: true, message: '로그인되었습니다.' });
+});
+
+app.post('/api/dashboard/logout', (_req, res) => {
+  dashboardAuth.clearAuthCookie(res);
+  return res.json({ success: true });
+});
+
+app.get('/api/dashboard/session', (req, res) => {
+  return res.json({ success: true, authenticated: dashboardAuth.isAuthenticated(req) });
+});
+
+app.use(dashboardAuth.requireDashboard);
 app.use(express.static(PUBLIC_DIR));
 
 ensureDirectories();

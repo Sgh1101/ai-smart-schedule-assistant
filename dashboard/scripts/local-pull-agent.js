@@ -51,8 +51,18 @@ function printHelp() {
 `);
 }
 
-async function fetchJson(url, options) {
-  const response = await fetch(url, options);
+function dashboardHeaders(extra = {}) {
+  const headers = { ...extra };
+  const pin = process.env.DASHBOARD_PIN || '1101';
+  if (pin) headers['X-Dashboard-Pin'] = pin;
+  return headers;
+}
+
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, {
+    ...options,
+    headers: dashboardHeaders(options.headers || {})
+  });
   if (!response.ok) {
     const text = await response.text();
     throw new Error(`HTTP ${response.status}: ${text.slice(0, 200)}`);
@@ -65,7 +75,7 @@ async function confirmPulled(server, userKey, item) {
     `${server}/api/admin/users/${encodeURIComponent(userKey)}/confirm-pulled`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: dashboardHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         items: [{ category: item.category, filename: item.filename, size: item.size }]
       })
@@ -84,7 +94,7 @@ async function downloadFile(server, userKey, item, localPath) {
     `?category=${encodeURIComponent(item.category)}` +
     `&filename=${encodeURIComponent(item.filename)}`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, { headers: dashboardHeaders() });
   if (!response.ok) {
     throw new Error(`download failed HTTP ${response.status}`);
   }

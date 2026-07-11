@@ -82,9 +82,14 @@
 
   async function api(path, options = {}) {
     const response = await fetch(API_BASE + path, {
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
       ...options
     });
+    if (response.status === 401) {
+      window.location.replace('/login.html');
+      throw new Error('로그인이 필요합니다.');
+    }
     if (!response.ok) {
       const text = await response.text();
       throw new Error(text || `HTTP ${response.status}`);
@@ -322,7 +327,11 @@
     }
     const userKey = state.selectedUserKey;
     const url = API_BASE + `/api/backup/${encodeURIComponent(userKey)}`;
-    const response = await fetch(url);
+    const response = await fetch(url, { credentials: 'include' });
+    if (response.status === 401) {
+      window.location.replace('/login.html');
+      return;
+    }
     if (!response.ok) {
       const text = await response.text();
       throw new Error(text || `HTTP ${response.status}`);

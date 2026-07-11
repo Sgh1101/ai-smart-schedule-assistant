@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 로그인</title>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f4f6fb;
+    }
+    .login-card {
+      width: min(360px, 92vw);
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+    }
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: #0f172a;
+    }
+    .login-card p {
+      margin: 0 0 20px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .login-card input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 12px;
+      border: 1px solid #dbe3f0;
+      border-radius: 12px;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      text-align: center;
+    }
+    .login-card button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .login-error {
+      margin-top: 12px;
+      color: #dc2626;
+      font-size: 13px;
+      min-height: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>관리자 관제탑</h1>
+    <p>접속 비밀번호를 입력하세요.</p>
+    <form id="loginForm">
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="16" autocomplete="current-password" placeholder="비밀번호" />
+      <button type="submit">입장</button>
+    </form>
+    <div class="login-error" id="loginError"></div>
+  </div>
+  <script src="/login.js"></script>
+</body>
+</html>

@@ -18,3 +18,5 @@ services:
         value: /tmp/uploads
       - key: GEMINI_API_KEY
         sync: false
+      - key: DASHBOARD_PIN
+        sync: false

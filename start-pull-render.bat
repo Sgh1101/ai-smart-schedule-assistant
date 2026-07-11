@@ -10,5 +10,6 @@ if "%RENDER_URL%"=="" (
 )
 
 echo Render pull agent: %RENDER_URL%
+set DASHBOARD_PIN=1101
 call npm run pull-agent -- --server %RENDER_URL%
 pause
