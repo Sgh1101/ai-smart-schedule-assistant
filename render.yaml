@@ -8,14 +8,21 @@ services:
     rootDir: dashboard
     buildCommand: npm install
     startCommand: npm start
-    plan: free
+    plan: starter
     healthCheckPath: /api/health
+    disk:
+      name: schedule-data
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
-      # Free tier has no persistent disk; uploads use ephemeral /tmp (lost on redeploy).
+      # Persistent disk: users/notifications/contacts survive redeploy.
+      # Photos/videos stay until PC pull-agent downloads + deletes them.
+      - key: DATA_DIR
+        value: /var/data/app-data
       - key: DATA_STORAGE_ROOT
-        value: /tmp/uploads
+        value: /var/data/uploads
       - key: GEMINI_API_KEY
         sync: false
       - key: DASHBOARD_PIN

@@ -23,6 +23,14 @@ dashboard/uploads/*
 !dashboard/uploads/.gitkeep
 *.apk
 
+# Runtime user data (must NOT ship test accounts in git / redeploys)
+dashboard/data/*
+!dashboard/data/.gitkeep
+!dashboard/data/schedule-cache/
+dashboard/data/schedule-cache/*
+!dashboard/data/schedule-cache/.gitkeep
+
+
 # Local tunnel / ngrok logs
 .ngrok.log
 .ngrok.log.err

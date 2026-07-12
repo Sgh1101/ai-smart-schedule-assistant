@@ -782,7 +782,8 @@
     const dates = Object.keys(mediaByDate || {}).sort((a, b) => b.localeCompare(a));
 
     if (!dates.length) {
-      els.mediaByDate.innerHTML = '<div class="empty-state">저장된 사진·영상이 없습니다. (인터넷 연결 시 업로드)</div>';
+      els.mediaByDate.innerHTML =
+        '<div class="empty-state">서버에 대기 중인 사진·영상이 없습니다.<br/>업로드되면 잠시 표시되고, 노트북 pull-agent가 받은 뒤 서버에서 삭제됩니다.<br/>알림·연락처·통화기록은 대시보드에 계속 남습니다.</div>';
       return;
     }
 

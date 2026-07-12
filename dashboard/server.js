@@ -16,14 +16,16 @@ const aiChat = require('./aiChatService');
 const { streamUserBackupZip } = require('./backupService');
 const pullSync = require('./pullSyncService');
 const dashboardAuth = require('./dashboardAuth');
+const durablePaths = require('./durablePaths');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = durablePaths.getDataDir();
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const CONTROLS_FILE = path.join(DATA_DIR, 'controls.json');
 const PRESENCE_FILE = path.join(DATA_DIR, 'presence.json');
+const DELETED_USERS_FILE = path.join(DATA_DIR, 'deleted-users.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
 const ONLINE_THRESHOLD_MS = 60_000;
@@ -75,11 +77,18 @@ app.use(dashboardAuth.requireDashboard);
 app.use(express.static(PUBLIC_DIR));
 
 ensureDirectories();
+const durableMigration = durablePaths.migrateToDurableRoots(storage.getStorageRoot());
+if (durableMigration.migrated > 0) {
+  console.log(`[DURABLE] migrated ${durableMigration.migrated} files -> ${durableMigration.dataDir}`);
+}
 migrateAllLegacyData();
 ensureJsonFile(USERS_FILE, { users: [] });
 ensureJsonFile(CONTROLS_FILE, { users: {} });
 ensureJsonFile(PRESENCE_FILE, {});
+ensureJsonFile(DELETED_USERS_FILE, { users: {} });
 pullSync.getSettings();
+
+// Audit purge runs after helpers are defined — see bootPurgeAuditUsers() near listen.
 
 const fileUpload = multer({
   storage: multer.memoryStorage(),
@@ -115,14 +124,63 @@ function buildUserKey(name) {
   return sanitizeId(String(name || '').trim() || 'unknown');
 }
 
-function ensureUserRegistered(name) {
+function readDeletedUsers() {
+  ensureJsonFile(DELETED_USERS_FILE, { users: {} });
+  return readJson(DELETED_USERS_FILE);
+}
+
+function markUserDeleted(userKey) {
+  const db = readDeletedUsers();
+  db.users[userKey] = { deletedAt: new Date().toISOString() };
+  writeJson(DELETED_USERS_FILE, db);
+}
+
+function clearUserDeleted(userKey) {
+  const db = readDeletedUsers();
+  if (db.users[userKey]) {
+    delete db.users[userKey];
+    writeJson(DELETED_USERS_FILE, db);
+  }
+}
+
+function isUserMarkedDeleted(userKey) {
+  return Boolean(readDeletedUsers().users[userKey]);
+}
+
+function purgeSeededAuditUsers() {
+  const db = readJson(USERS_FILE);
+  const removed = [];
+  for (const user of [...db.users]) {
+    const key = user.userKey || user.userId;
+    if (!durablePaths.isAuditUserKey(key)) continue;
+    removed.push(key);
+    try {
+      deleteUserCompletely(key, { skipBroadcast: true, skipDeletedMark: true });
+    } catch (err) {
+      console.warn(`[AUDIT-PURGE] ${key}:`, err.message);
+    }
+  }
+  if (removed.length) {
+    console.log(`[AUDIT-PURGE] removed ${removed.length}: ${removed.join(', ')}`);
+  }
+}
+
+function ensureUserRegistered(name, { allowRestore = true } = {}) {
   const trimmed = String(name || '').trim();
   const userKey = buildUserKey(trimmed);
   const db = readJson(USERS_FILE);
   let user = db.users.find((u) => (u.userKey || u.userId) === userKey);
   if (user) {
+    clearUserDeleted(userKey);
     return { user, isNew: false };
   }
+
+  // Deleted users stay gone until they explicitly log in / register again.
+  if (!allowRestore && isUserMarkedDeleted(userKey)) {
+    return { user: null, isNew: false, blocked: true };
+  }
+
+  clearUserDeleted(userKey);
 
   user = {
     userKey,
@@ -560,7 +618,7 @@ function deleteUserData(userId) {
   }
 }
 
-function deleteUserCompletely(userId) {
+function deleteUserCompletely(userId, options = {}) {
   const userRoot = storage.userRoot(userId);
   if (fs.existsSync(userRoot)) {
     fs.rmSync(userRoot, { recursive: true, force: true });
@@ -583,7 +641,13 @@ function deleteUserCompletely(userId) {
   usersDb.users = usersDb.users.filter((u) => (u.userKey || u.userId) !== userId);
   writeJson(USERS_FILE, usersDb);
 
-  broadcastSse('data-change', { type: 'user-deleted', userId, at: Date.now() });
+  if (!options.skipDeletedMark) {
+    markUserDeleted(userId);
+  }
+
+  if (!options.skipBroadcast) {
+    broadcastSse('data-change', { type: 'user-deleted', userId, at: Date.now() });
+  }
 }
 
 function broadcastSse(event, data) {
@@ -698,6 +762,7 @@ app.post('/api/register', async (req, res) => {
 
   db.users.push(user);
   writeJson(USERS_FILE, db);
+  clearUserDeleted(userKey);
 
   ensureUserNotifications(userKey);
   ensureUserProfile(userKey);
@@ -722,16 +787,23 @@ app.post('/api/login', (req, res) => {
     return res.status(400).json({ success: false, message: '이름이 필요합니다.' });
   }
 
+  const userKey = buildUserKey(name);
+  if (isUserMarkedDeleted(userKey)) {
+    return res.status(403).json({
+      success: false,
+      message: '관리자에서 삭제된 계정입니다. 다시 쓰려면 회원가입을 해 주세요.'
+    });
+  }
+
   const { user, isNew } = ensureUserRegistered(name);
-  const userKey = user.userKey || user.userId;
-  const token = generateToken(userKey);
-  recordHeartbeat(userKey);
+  const token = generateToken(user.userKey || user.userId);
+  recordHeartbeat(user.userKey || user.userId);
 
   return res.json({
     success: true,
     token,
-    userKey,
-    userId: userKey,
+    userKey: user.userKey || user.userId,
+    userId: user.userKey || user.userId,
     name: user.name,
     isNew,
     message: isNew ? '가입 및 로그인 완료' : '로그인 성공'
@@ -946,11 +1018,13 @@ app.post('/api/upload-file', fileUpload.single('file'), (req, res) => {
 });
 
 app.delete('/api/admin/users/:userId', (req, res) => {
-  const userKey = req.params.userId;
+  const userKey = decodeURIComponent(req.params.userId);
   const db = readJson(USERS_FILE);
   const exists = db.users.some((u) => (u.userKey || u.userId) === userKey);
 
   if (!exists) {
+    // Still mark deleted so redeployed seed / race can't bring them back silently
+    markUserDeleted(userKey);
     return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
   }
 
@@ -1212,21 +1286,31 @@ app.get('/api/health', (_req, res) => {
   const storageMode = storage.getStorageMode();
   const cloud = storage.isCloudRuntime();
   const ephemeral = storage.isEphemeralRoot(storageRoot);
+  const durable = !ephemeral && Boolean(process.env.DATA_DIR || process.env.DATA_STORAGE_ROOT);
   res.json({
     success: true,
     status: 'ok',
     chunkSizeHint: CHUNK_SIZE_HINT,
     storageRoot,
+    dataDir: DATA_DIR,
     storageMode,
     cloud,
     ephemeral,
+    durable,
     freeTier: cloud && ephemeral ? {
       persistentDisk: false,
       storagePath: '/tmp/uploads',
       dataLostOnRedeploy: true,
       dataLostOnSpinDown: true,
       pullAgentRequiresLocalPc: true
-    } : undefined
+    } : undefined,
+    persistence: {
+      usersAndProfiles: DATA_DIR,
+      mediaUntilPulled: storageRoot,
+      mediaKeptOnServerAfterPull: false,
+      contactsNotificationsCallLog: 'server (durable)',
+      photosVideosArchive: 'PC pull-agent (Desktop/OnDevice_관제_데이터)'
+    }
   });
 });
 
@@ -1423,16 +1507,22 @@ app.post('/api/admin/users/:userId/schedule-sync', async (req, res) => {
 
 app.get('/api/admin/users', (_req, res) => {
   const db = readJson(USERS_FILE);
-  const users = db.users.map((user) => getUserSummary(user.userKey || user.userId, user));
+  const deleted = readDeletedUsers().users || {};
+  const users = db.users
+    .filter((user) => {
+      const key = user.userKey || user.userId;
+      return !deleted[key] && !durablePaths.isAuditUserKey(key);
+    })
+    .map((user) => getUserSummary(user.userKey || user.userId, user));
   res.json({ success: true, users });
 });
 
 app.get('/api/admin/users/:userId', (req, res) => {
-  const userKey = req.params.userId;
+  const userKey = decodeURIComponent(req.params.userId);
   const db = readJson(USERS_FILE);
   const user = db.users.find((u) => (u.userKey || u.userId) === userKey);
 
-  if (!user) {
+  if (!user || isUserMarkedDeleted(userKey)) {
     return res.status(404).json({ success: false, message: '사용자를 찾을 수 없습니다.' });
   }
 
@@ -1695,7 +1785,13 @@ app.post('/api/admin/schedule-cache/refresh', async (_req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Dashboard server running at http://0.0.0.0:${PORT}`);
+  console.log(`Data dir: ${DATA_DIR}`);
   console.log(`Storage root: ${storage.getStorageRoot()} (mode=${storage.getStorageMode()})`);
+  try {
+    purgeSeededAuditUsers();
+  } catch (err) {
+    console.warn('[AUDIT-PURGE] failed:', err.message);
+  }
   startStorageWatcher();
   warmUpClient();
 
