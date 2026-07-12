@@ -1,10 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 const storage = require('./storagePaths');
+const durablePaths = require('./durablePaths');
 
-const DATA_DIR = path.join(__dirname, 'data');
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-const PULL_SETTINGS_FILE = path.join(DATA_DIR, 'pull-sync-settings.json');
+function getDataDir() {
+  return durablePaths.getDataDir();
+}
+
+function usersFile() {
+  return path.join(getDataDir(), 'users.json');
+}
+
+function pullSettingsFile() {
+  return path.join(getDataDir(), 'pull-sync-settings.json');
+}
 
 const MEDIA_CATEGORIES = new Set([
   storage.CATEGORIES.photos,
@@ -20,8 +29,10 @@ function writeJson(filePath, data) {
 }
 
 function ensurePullSettings() {
-  if (!fs.existsSync(PULL_SETTINGS_FILE)) {
-    writeJson(PULL_SETTINGS_FILE, getDefaultSettings());
+  const file = pullSettingsFile();
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  if (!fs.existsSync(file)) {
+    writeJson(file, getDefaultSettings());
   }
 }
 
@@ -34,7 +45,7 @@ function getDefaultSettings() {
 
 function getSettings() {
   ensurePullSettings();
-  return { ...getDefaultSettings(), ...readJson(PULL_SETTINGS_FILE) };
+  return { ...getDefaultSettings(), ...readJson(pullSettingsFile()) };
 }
 
 function updateSettings(patch) {
@@ -49,7 +60,7 @@ function updateSettings(patch) {
         ? Math.max(10, Math.min(600, parseInt(patch.pullIntervalSec, 10) || current.pullIntervalSec))
         : current.pullIntervalSec
   };
-  writeJson(PULL_SETTINGS_FILE, next);
+  writeJson(pullSettingsFile(), next);
   return next;
 }
 
@@ -83,11 +94,12 @@ function listMediaItemsForUser(userId) {
 }
 
 function listAllPullQueues() {
-  if (!fs.existsSync(USERS_FILE)) {
+  const file = usersFile();
+  if (!fs.existsSync(file)) {
     return { users: [], totalItems: 0, totalBytes: 0 };
   }
 
-  const db = readJson(USERS_FILE);
+  const db = readJson(file);
   const users = (db.users || []).map((user) => {
     const userKey = user.userKey || user.userId;
     const items = listMediaItemsForUser(userKey);
