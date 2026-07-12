@@ -20,6 +20,26 @@ const MEDIA_CATEGORIES = new Set([
   storage.CATEGORIES.videos
 ]);
 
+const CATEGORY_ALIASES = {
+  photos: storage.CATEGORIES.photos,
+  photo: storage.CATEGORIES.photos,
+  images: storage.CATEGORIES.photos,
+  image: storage.CATEGORIES.photos,
+  videos: storage.CATEGORIES.videos,
+  video: storage.CATEGORIES.videos,
+  [storage.CATEGORIES.photos]: storage.CATEGORIES.photos,
+  [storage.CATEGORIES.videos]: storage.CATEGORIES.videos
+};
+
+function normalizeMediaCategory(category) {
+  const raw = String(category || '').trim();
+  if (!raw) return '';
+  if (CATEGORY_ALIASES[raw]) return CATEGORY_ALIASES[raw];
+  const lower = raw.toLowerCase();
+  if (CATEGORY_ALIASES[lower]) return CATEGORY_ALIASES[lower];
+  return raw;
+}
+
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
@@ -122,7 +142,7 @@ function listAllPullQueues() {
 function resolvePullFile(userId, category, filename) {
   const safeId = storage.sanitizeId(userId);
   const safeName = path.basename(String(filename || ''));
-  const safeCategory = String(category || '');
+  const safeCategory = normalizeMediaCategory(category);
 
   if (!safeName || !MEDIA_CATEGORIES.has(safeCategory)) {
     return null;
@@ -154,7 +174,7 @@ function confirmPulledItems(userId, items) {
   const failed = [];
 
   for (const raw of items || []) {
-    const category = String(raw?.category || '');
+    const category = normalizeMediaCategory(raw?.category);
     const filename = path.basename(String(raw?.filename || ''));
     const expectedSize = Number(raw?.size);
 
